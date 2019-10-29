@@ -1,6 +1,6 @@
 {
   "name": "rangier",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ranges of numbers or letters passed to a callback",
   "main": "index.js",
   "scripts": {
