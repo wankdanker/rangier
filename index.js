@@ -9,7 +9,8 @@ function ranger(ranges, fn) {
         ranges[x] = toRange(ranges[x]);
     }
 
-    recurse(ranges, 0, fn);
+    iterative(ranges, fn);
+    // recurse(ranges, 0, fn);
 
     function recurse(ranges, index, fn) {
         index = index || 0;
@@ -37,6 +38,47 @@ function ranger(ranges, fn) {
             //reset the element of the ranges for the current index
             //back to its range array
             ranges[index] = r;
+        }
+    }
+
+    function iterative(sets, fn) {
+        let total = 1;
+
+        for (let x in sets) {
+            let set = sets[x];
+
+            total *= set.length;
+            
+            set.grouping = 1;
+            set.counter = 0;
+            set.index = 0;
+
+            for (let y = x; y < sets.length; y++) {
+                if (y > x) {
+                    set.grouping *= sets[y].length;
+                }
+            }
+        }
+
+        for (let i = 0; i < total; i ++ ) {
+            let result = [];
+
+            for (let x in sets) {
+                let set = sets[x];
+
+                if (set.counter >= set.grouping) {
+                    set.index +=1;
+                    set.counter = 0;
+                    if (set.index >= set.length) {
+                        set.index = 0;
+                    }
+                }
+
+                result[x] = set[set.index];
+                set.counter += 1;
+            }
+
+            fn(result);
         }
     }
 }
